@@ -1,10 +1,21 @@
-# ms-eureka-server
+# MS Eureka Server
 
-Servidor de descubrimiento Eureka para Servillantas RV.
+Registro y descubrimiento de los microservicios de Servillantas.
 
-Arranca después de Config Server. Su archivo local contiene únicamente el nombre de aplicación y la dirección de Config Server; puerto, hostname y comportamiento de Eureka se obtienen centralmente desde `ms-eureka-server.yml`.
+## Responsabilidades
 
-- Puerto por defecto: `8761`
-- Dashboard: `/`
-- Health: `/actuator/health`
-- Registro: `/eureka/apps`
+- Recibe el registro y los latidos de cada instancia.
+- Permite que el API Gateway y los clientes usen nombres lógicos en vez de hosts fijos.
+- Expone el panel de Eureka y el endpoint `/eureka/`.
+- No se registra a sí mismo ni descarga otro registro.
+
+El puerto predeterminado es `8761`; la configuración proviene de Config Server (`ms-eureka-server.yml`). En producción revise `EUREKA_SELF_PRESERVATION` antes de desactivarlo.
+
+## Ejecución
+
+Inicie primero Config Server y después Eureka:
+
+```bash
+./mvnw test
+./mvnw spring-boot:run
+```
